@@ -1,0 +1,21 @@
+canvas{
+	display: block;
+	margin: 0 auto;
+}
+
+body{
+	background-image: url('../img/photo_2022-11-01_11-34-20.jpg');
+	background-repeat: repeat;
+	background-size: 1000px 1000px;
+	background-position: -170px 0px;
+}
+
+p{
+	margin-top: 340px;
+	margin-left: 430px;
+	font-family: Arial;
+	font-size: 100px;
+	font-weight: 600;
+	color: red;
+	display: none;
+}
