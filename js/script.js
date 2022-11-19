@@ -12,6 +12,10 @@ const text = document.querySelector('p');
 
 let box = 32;
 
+let result = false;
+
+let apple = new Audio('img/apple.mp3');
+
 let score = 0;
 
 const body = document.querySelector('body');
@@ -33,21 +37,34 @@ snake[0] = {
 document.addEventListener('keydown', direction);
 
 let dir;
+let f = true;
+
 
 function direction(event){
-	if((event.keyCode == 65 || event.keyCode == 37) && dir != 'right'){
-		dir = 'left';
-	} else if((event.keyCode == 87 || event.keyCode == 38) && dir != 'down'){
-		dir = 'up';
-	}else if((event.keyCode == 68 || event.keyCode == 39) && dir != 'left'){
-		dir = 'right';
-	}else if((event.keyCode == 83 || event.keyCode == 40) && dir != 'up'){
-		dir = 'down';
+	if (result == false){
+		body.style.backgroundImage = 'url(img/photo_2022-11-01_11-34-20.jpg)';
+
 	}
+
+	if (f == true){
+		if((event.keyCode == 65 || event.keyCode == 37) && dir != 'right'){
+		dir = 'left';
+		} else if((event.keyCode == 87 || event.keyCode == 38) && dir != 'down'){
+			dir = 'up';
+		}else if((event.keyCode == 68 || event.keyCode == 39) && dir != 'left'){
+			dir = 'right';
+		}else if((event.keyCode == 83 || event.keyCode == 40) && dir != 'up'){
+			dir = 'down';
+		}
+	}
+	f = false;
+
 }
 
 
+
 function draw_game(){
+
 	ctx.drawImage(ground, 0, 0);
 
 	ctx.drawImage(foodImg, food.x, food.y);
@@ -65,7 +82,10 @@ function draw_game(){
 	let snakeY = snake[0].y;
 
 	if(snakeX == food.x && snakeY == food.y){
+		apple.play();
 		score += 1;
+		body.style.backgroundImage = 'url(img/win.jpg)';
+
 		food = {
 			x: Math.floor(Math.random() * 16 + 1) * box,
 			y: Math.floor(Math.random() * 16 + 3) * box,
@@ -78,18 +98,22 @@ function draw_game(){
 	if(snakeX < box || snakeX > box * 16
 		|| snakeY < 3 * box || snakeY > box * 18){
 		clearInterval(game);
-		console.log('проиграл')
 		body.style.backgroundImage = 'url("img/photo_2022-11-13_01-41-47.jpg")';
 		body.style.backgroundPosition = '-100px -120px';
 		body.style.backgroundRepeat = 'no-repeat';
 		body.style.backgroundSize = '2000px 1000px';
 		canvas.style.display = 'none';
 		sound.play();
+		result = true;
+		console.log(result);
+
 		text.style.display = 'block';
+		draw_game();
 
 
 
 	}
+
 
 	if(dir == 'left') snakeX -= box;
 	if(dir == 'right') snakeX += box;
@@ -114,14 +138,17 @@ function draw_game(){
 				body.style.backgroundSize = '2000px 1000px';
 				canvas.style.display = 'none';
 				sound.play();
+				result = true;
+
 				text.style.display = 'block';
 			}
 		}
 	}
 
 	snake.unshift(newHead);
-
+	f = true;
 
 };
 
 let game = setInterval(draw_game, 100);
+console.log(result);
